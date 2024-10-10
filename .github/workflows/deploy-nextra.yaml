@@ -1,56 +1,29 @@
-name: CI|CD 部署文档
-permissions:
-  contents: write
+name: Deploy
+
 on:
   push:
-    tags:
-      - v*
+    branches: [main]
 
 jobs:
-  build:
-    name: build docs
+  github_pages_deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-
     steps:
-      - name: 读取仓库内容 👓
-        uses: actions/checkout@v4
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+      - uses: actions/checkout@v3
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
-
-      - name: 设置 Node.js 🎶
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
+          node-version: 22.x
       - name: 安装 pnpm 🐸
         run: npm install --global pnpm
-
-      - name: 构建文档 🔨
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
-        run: |-
+      - name: Install dependencies
+        run: |
           pnpm install
-          pnpm run build
-          > out/.nojekyll
-
-      - name: release 😶‍🌫️
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: 'out/**'
+          pnpm export
+      - name: Deploy
+        run: |
+          git remote set-url origin https://git:${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          pnpm deploy -- -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: 部署文档 👌
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: pages
-          folder: out
