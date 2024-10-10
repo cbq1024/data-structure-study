@@ -1,4 +1,5 @@
 import Image from 'next/image';
+// @ts-ignore
 import styles from './index.module.css';
 
 interface CustomImageProps {
