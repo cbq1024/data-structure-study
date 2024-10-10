@@ -10,7 +10,8 @@ const nextConfig = {
     assetPrefix,
     basePath: assetPrefix,
     images: {
-        unoptimized: true // mandatory, otherwise won't export
+        loader: 'custom',
+        loaderFile: './image-loader.ts',
     },
     // Optional: Change the output directory `out` -> `dist`
     // distDir: "build"
