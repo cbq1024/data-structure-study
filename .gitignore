@@ -84,3 +84,5 @@ cache
 .temp
 *.local
 !/config/conf.d/
+/out/
+/.next/
