@@ -3,9 +3,12 @@ import nextra from 'nextra'
 /**
  * @type {import('next').NextConfig}
  */
+const assetPrefix =  "/data-structure-study"
+
 const nextConfig = {
     output: 'export',
-    basePath: '/data-structure-study',
+    assetPrefix,
+    basePath: assetPrefix,
     images: {
         unoptimized: true // mandatory, otherwise won't export
     }
@@ -17,4 +20,7 @@ const withNextra = nextra({
     themeConfig: './theme.config.jsx'
 })
 
-export default withNextra(nextConfig)
+module.exports = {
+    ...withNextra(),
+    ...nextConfig,
+};

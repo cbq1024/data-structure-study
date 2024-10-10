@@ -1,33 +1,56 @@
-name: Deploy
-
+name: CI|CD 部署文档
+permissions:
+  contents: write
 on:
   push:
-    branches: [main]
+    tags:
+      - v*
 
 jobs:
-  github_pages_deploy:
-    runs-on: ubuntu-latest
+  build:
+    name: build vite press
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+
+    if: startsWith(github.ref, 'refs/tags/')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-      - uses: actions/checkout@v3
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v3
+      - name: 读取仓库内容 👓
+        uses: actions/checkout@v4
         with:
-          node-version: 22.x
+          fetch-depth: 0
+
+      - name: 设置 Node.js 🎶
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: 安装 pnpm 🐸
         run: npm install --global pnpm
-      - name: Install dependencies
-        run: |
+
+      - name: 构建文档 🔨
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
           pnpm install
-          pnpm export
-      - name: Setup Git Identity
-        run: |
-          git config --global user.email "support+actions@github.com"
-          git config --global user.name "github-actions-bot"
-      - name: Deploy
-        run: |
-          git remote set-url origin https://git:${ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          pnpm run deploy -- -u "github-actions-bot <support+actions@github.com>"
+          pnpm run export
+
+      - name: release 😶‍🌫️
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: 'out/**'
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: 部署文档 👌
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: pages
+          folder: out
