@@ -9,25 +9,18 @@ export default {
             pagination: true,
         }
     },
+    'markdown': 'markdown demo',
+    'dsa': '数据结构入门 😛',
     '-': {
         type: 'separator'
     },
-    demo: '案例 😛',
+    'array-ds': '数组数据结构',
     '--': {
         type: 'separator'
     },
-    company: {
-        title: '联系我 🐉',
-        type: 'menu',
-        items: {
-            about: {
-                title: 'github',
-                href: 'https://github.com/cbq1024'
-            },
-            contact: {
-                title: 'email',
-                href: 'mailto:caobq1024@gmai.com'
-            }
-        }
+    'link-list-ds': '链表数据结构',
+    '---': {
+        type: 'separator'
     }
+
 }

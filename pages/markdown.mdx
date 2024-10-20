@@ -1,0 +1,219 @@
+# Markdown
+
+## GitHub Flavored Markdown
+
+[GFM](https://github.github.com/gfm) is an extension of Markdown, created by
+GitHub, that adds support for strikethrough, task lists, tables, and more.
+
+### Strikethrough
+
+~~removed~~
+
+```md filename="Markdown"
+~~removed~~
+```
+
+### Task List
+
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+
+```md filename="Markdown"
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+```
+
+### Table
+
+| Syntax        | Description |   Test Text |
+| :------------ | :---------: | ----------: |
+| Header        |    Title    | Here's this |
+| Paragraph     |    Text     |    And more |
+| Strikethrough |             |    ~~Text~~ |
+
+```md filename="Markdown"
+| Syntax        | Description |   Test Text |
+| :------------ | :---------: | ----------: |
+| Header        |    Title    | Here's this |
+| Paragraph     |    Text     |    And more |
+| Strikethrough |             |    ~~Text~~ |
+```
+
+### Autolinks
+
+Visit https://nextjs.org.
+
+```md
+Visit https://nextjs.org.
+```
+
+### Custom Heading Id
+
+You can specify custom heading id using the format `## My heading [#custom-id]`.
+For example:
+
+```md filename="Markdown"
+## Long heading about Nextra [#about-nextra]
+```
+
+In this example, `#about-nextra` will be used as the heading link, replacing the
+default `#long-heading-about-nextra`.
+
+## Callout Component
+
+import {Callout} from 'nextra/components'
+
+<Callout emoji="👾">
+    **Space Invaders** is a 1978 shoot 'em up arcade game developed by Tomohiro
+    Nishikado.
+</Callout>
+
+<Callout type="info" emoji="ℹ️">
+    Today is Friday.
+</Callout>
+
+<Callout type="warning" emoji="⚠️">
+    This API will be deprecated soon.
+</Callout>
+
+<Callout type="error" emoji="️🚫">
+    This is a dangerous feature that can cause everything to explode.
+</Callout>
+
+## Tabs Component
+
+import {Tabs} from 'nextra/components'
+
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+    <Tabs.Tab>**pnpm**: Fast, disk space efficient package manager.</Tabs.Tab>
+    <Tabs.Tab>**npm** is a package manager for the JavaScript programming language.</Tabs.Tab>
+    <Tabs.Tab>**Yarn** is a software packaging system.</Tabs.Tab>
+</Tabs>
+
+## Cards Component
+
+A built-in component that allows you to display content in a visually appealing card format. It includes options for adding an icon, title, link and an image to related content.
+
+这是一个内置组件，可让您以具有视觉吸引力的卡片格式显示内容。它包括为相关内容添加图标、标题、链接和图片的选项。
+
+import { Cards } from 'nextra/components'
+import { CardsIcon, OneIcon, WarningIcon } from '@components/icons'
+
+<Cards>
+    <Cards.Card
+        icon={<WarningIcon />}
+        title="Callout"
+        href="/docs/guide/built-ins/callout"
+    />
+    <Cards.Card
+        icon={<CardsIcon />}
+        title="Tabs"
+        href="/docs/guide/built-ins/tabs"
+    />
+    <Cards.Card
+        icon={<OneIcon />}
+        title="Steps"
+        href="/docs/guide/built-ins/steps"
+    />
+</Cards>
+
+## Steps Component
+
+A built-in component to turn a numbered list into a visual representation of steps.
+
+将编号列表转化为可视化步骤表示的内置组件。
+
+
+```text
+Wrap a set of markdown headings with the <Steps> component to turn them into visual steps.
+It supports <h2>, <h3>, and <h4> headings. You can choose the appropriate heading level based on the content hierarchy on the page.
+
+
+用 <Steps> 组件包裹一组标记符标题，将其转化为可视化步骤。它支持 <h2>、<h3> 和 <h4> 标题。您可以根据页面上的内容层次来选择适当的标题级别。
+```
+
+
+import {Steps} from 'nextra/components'
+
+## Getting Started
+
+Here is some description.
+
+<Steps>
+    ### Step 1
+
+    Contents for step 1.
+
+    ### Step 2
+
+    Contents for step 2.
+</Steps>
+
+```text
+To exclude the headings from the <Steps> component (or any other headings) to
+appear in the Table of Contents, replace the Markdown headings ### ... with <h3> HTML element wrapped in curly braces.
+
+要在目录中排除 <Steps> 组件中的标题（或任何其他标题），请将 Markdown 标题 ## ... 替换为用大括号包裹的 <h3> HTML 元素。
+```
+
+<Steps>
+    {<h3>Step 1</h3>}
+
+    Contents for step 1.
+
+    {<h3>Step 2</h3>}
+
+    Contents for step 2.
+
+    {<h3>Step 3</h3>}
+
+    Contents for step 3.
+</Steps>
+
+import { FileTree } from 'nextra/components'
+
+# File Tree Component
+
+A built-in component to visually represent a file tree.
+
+## Example
+
+Click the folder to test the dynamic functionality of the file tree.
+
+<FileTree>
+    <FileTree.Folder name="pages" defaultOpen>
+        <FileTree.File name="_meta.js" />
+        <FileTree.File name="contact.md" />
+        <FileTree.File name="index.mdx" />
+        <FileTree.Folder name="about">
+            <FileTree.File name="_meta.js" />
+            <FileTree.File name="legal.md" />
+            <FileTree.File name="index.mdx" />
+        </FileTree.Folder>
+    </FileTree.Folder>
+</FileTree>
+
+## Usage
+
+Create the file tree structure by nesting `<FileTree.Folder>` and
+`<FileTree.File>` components within a `<FileTree>`. Name each file or folder
+with the `name` attribute. Use `defaultOpen` to set the folder to open on load.
+
+```mdx filename="MDX"
+import { FileTree } from 'nextra/components'
+
+<FileTree>
+  <FileTree.Folder name="pages" defaultOpen>
+    <FileTree.File name="_meta.js" />
+    <FileTree.File name="contact.md" />
+    <FileTree.File name="index.mdx" />
+    <FileTree.Folder name="about">
+      <FileTree.File name="_meta.js" />
+      <FileTree.File name="legal.md" />
+      <FileTree.File name="index.mdx" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+```
