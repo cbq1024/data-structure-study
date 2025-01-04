@@ -9,7 +9,7 @@
 		"export": "next build && touch out/.nojekyll"
 	},
 	"dependencies": {
-		"next": "^14.2.15",
+		"next": "^14.2.21",
 		"nextra": "^3.0.8",
 		"nextra-theme-docs": "^3.0.8",
 		"react": "^18.3.1",
